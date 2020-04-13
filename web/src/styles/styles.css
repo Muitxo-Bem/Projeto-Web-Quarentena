@@ -1,0 +1,43 @@
+* {
+
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    box-sizing: border-box;
+}
+body, html {
+    font-family: Arial, Helvetica, sans-serif;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    background: #fafafa;
+    color: #333;
+    height: 100%;
+    width: 100%;
+}
+@import url('https://fonts.googleapis.com/css?family=Raleway:300&display=swap');
+h1 {
+    font-family: 'Raleway', sans-serif;
+    color: white;
+    line-height: 2.5rem;
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-shadow: 3px 3px #333;
+    
+}
+.main {
+    height: 100vh;
+    background-image:
+        linear-gradient(
+            to right bottom,
+            rgb(126,214,223,0.5),
+            rgb(22,160,133,0.6)
+        
+    ),url("../assets/img/default-background.jpg");
+    background-size: cover;
+    background-position: center;
+
+    display: flex;
+    flex-direction: column;
+
+}
+
