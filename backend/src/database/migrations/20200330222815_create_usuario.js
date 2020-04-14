@@ -4,6 +4,7 @@ exports.up = function(knex) {
     table.string('tipo_conta').notNullable();
     table.string('nome').notNullable();
     table.string('email').primary();
+    table.string('senha').notNullable;
 
   });
 };
