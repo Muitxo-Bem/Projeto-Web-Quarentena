@@ -28,6 +28,17 @@ form > p {
     padding: 10px;
     width: 100%;
     text-align: center;
+    border-radius: 8px;
+}
+
+form > p#sucesso {
+    color: #009e00;
+    margin-bottom: 15px;
+    border: 1px solid #009e00;
+    padding: 10px;
+    width: 100%;
+    text-align: center;
+    border-radius: 8px;
 }
 
 form > input {
