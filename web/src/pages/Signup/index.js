@@ -1,45 +1,64 @@
-import React from 'react';
+import React,{useState} from 'react';
 import {Link} from 'react-router-dom';
-import {useForm} from 'react-hook-form';
 
 import './styles.css'
+import api from '../../services/api';
 
 const logo = '../../assets/img/default-background.jpg'
 
 function Signup(){
-    const {register, handleSubmit} = useForm();
-    let error = '';
+    const [nome,setNome] = useState('');
+    const [email,setEmail] = useState('');
+    const [senha,setSenha] = useState('');
+    const [erro,setErro] = useState('');
+    let response;
 
-    const onSubmit = data => console.log(data);
-  
+    async function handleRegister(e){
+        e.preventDefault();
+        const data ={
+            nome,
+            email,
+            senha,
+        };
+        try{
+            response = await api.post('/usuarios',data);
+        }catch(err){
+            if(err.response.status === 409){
+                setErro('Email já cadastrado !');
+            }
+        }
+    }
         return(
             <div className='main'>
                 <div id='signup-div'>
-                    <form onSubmit={handleSubmit(onSubmit)}>
+                    <form onSubmit={handleRegister}>
                         <img src={logo} alt='MtxBem Logo'/>
-                        {error && <p>{error}</p>}
+                        {erro && <p>{erro}</p>}
                         <input
-                            ref={register}
-                            name='Nome de Usuário'
+                            value={nome}
+                            onChange={e => setNome(e.target.value)}
+                            name='Nome Completo'
                             type='text'
-                            placeholder='Nome de Usuário'   
+                            placeholder='Nome Completo'   
                         />
                         <input
-                            ref={register}
+                            value={email}
+                            onChange={e => setEmail(e.target.value)}
                             name='Email'
-                            type='text'
+                            type='email'
                             placeholder='Endereço de Email'   
                         />
                         <input
                             id='senha'
-                            ref={register}
+                            value={senha}
+                            onChange={e => setSenha(e.target.value)}
                             name='Senha'
                             type='password'
                             placeholder='Senha'
                         />
                         <button type="submit">Cadastrar</button>
                         <hr/>
-                        <Link to="/">Fazer Login</Link>
+                        <Link to="/login">Fazer Login</Link>
                     </form>
                 </div>
             </div>
