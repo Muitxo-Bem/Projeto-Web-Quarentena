@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 
 import './styles.css'
 import api from '../../services/api';
@@ -11,6 +11,7 @@ function Signup(){
     const [email,setEmail] = useState('');
     const [senha,setSenha] = useState('');
     const [erro,setErro] = useState('');
+    const [sucesso,setSucesso] = useState('');
     let response;
 
     async function handleRegister(e){
@@ -21,7 +22,13 @@ function Signup(){
             senha,
         };
         try{
+            setErro('')
             response = await api.post('/usuarios',data);
+            setSucesso('Cadastro Realizado com Sucesso');
+            setEmail('');
+            setNome('');
+            setSenha('');
+
         }catch(err){
             if(err.response.status === 409){
                 setErro('Email já cadastrado !');
@@ -34,6 +41,7 @@ function Signup(){
                     <form onSubmit={handleRegister}>
                         <img src={logo} alt='MtxBem Logo'/>
                         {erro && <p>{erro}</p>}
+                        {sucesso && <p id='sucesso'>{sucesso}</p>}
                         <input
                             value={nome}
                             onChange={e => setNome(e.target.value)}
