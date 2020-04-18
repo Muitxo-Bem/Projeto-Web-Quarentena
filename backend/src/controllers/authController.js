@@ -3,6 +3,12 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const authConfig = require('../config/auth.json');
 
+function generateToken(params={}){
+    return jwt.sign(params,authConfig.secret,{
+        expiresIn: 86400,
+    });
+}
+
 module.exports = {
     generateToken(params={}){
         return jwt.sign(params,authConfig.secret,{
@@ -29,7 +35,7 @@ module.exports = {
                 type:'success',
                 message:'Senha Correta !',
                 usuario,
-                token: this.generateToken({id: email}),
+                token: generateToken({id: email}),
             })
         }
     }
