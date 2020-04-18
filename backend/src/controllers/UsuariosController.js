@@ -1,16 +1,32 @@
 const connection = require('../database/connection');
-
+const bcrypt = require('bcrypt');
+const authController = require('./authController');
+//show semelhante ao index, porem retorna apenas um que vem da request.params
 module.exports = {
     async create(request,response){
-        const{tipo_conta, nome, email} = request.body;
+        const{tipo_conta = 0, nome, email, senha} = request.body;
 
-        await connection('usuario').insert({
-            tipo_conta,
-            nome,
-            email,
-        });
+        const check = await connection('usuario').select('*').where('email',email);
+        if(check.length != 0){
+            return response.status(409).send({
+                type:'error',
+                message: "Email já cadastrado !"
+            })
+        }else{
+            const hash = await bcrypt.hash(senha,10); // criptografa a senha do usuario, pra salvar no banco
+            await connection('usuario').insert({
+                tipo_conta,
+                nome,
+                email,
+                hash,
+            });
+            return response.status(201).send({
+                type:'success',
+                message:'Cadastro Realizado com Sucesso !',
+                token: authController.generateToken({id: email})
+            });
+        }
 
-        return response.status(201).send();
     },
 
     async index(request,response){
